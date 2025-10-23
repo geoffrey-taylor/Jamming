@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
+import Tracklist from '../Tracklist/Tracklist';
 
-//Review film finder project for API and async-await and try-catch
-
-//Skeleton for dummy search results section
-function SearchResults() {
-    const [results, setResults] = useState([]);
-
+// Presentation component for Tracklist
+const SearchResults = (props) => {
+    return (
+        <div>
+            <h2>Results</h2>
+            <Tracklist tracks={props.searchResults} onAdd={props.onAdd} />
+        </div>
+    );
 };
 
 export default SearchResults;
