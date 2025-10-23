@@ -1,6 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
+import Track from '../Track/Track';
 
-function Tracklist() {
-    const [tracklist, setTracklist] = useState([]);
+// Use .map() to build array of tracks
+const Tracklist = (props) => {
+    return (
+        <div>
+            {props.tracks.map((track) => {
+                return (
+                    <Track
+                        track={track}
+                        key={track.id}
+                        onAdd={props.onAdd}
+                        isRemoval={props.isRemoval}
+                        onRemove={props.onRemove}
+                    />
+                );
+            })}
+        </div>
+    );
+};
 
-}
+export default Tracklist;
