@@ -1,32 +1,33 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 
 //Search bar text input and button to submit
-function SearchBar() {
-    const [search, setSearch] = useState('');
+function SearchBar(props) {
+    const [term, setTerm] = useState('');
 
-    //Resets search field upon form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        alert('Searching...');
-        setSearch('');
-    };
+    const handleTermChange = useCallback((event) => {
+        setTerm(event.target.value);
+    }, []);
+
+    const search = useCallback(() => {
+        props.onSearch(term);
+    }, [props.onSearch, term]);
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form>
                 <input
                     id='search'
                     name='search'
                     type='text'
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={handleTermChange}
                 />
-                <button type='submit'>
+                <button id='searchBtn' type='submit' onClick={search}>
                     Search Song Title
                 </button>
             </form>
         </>
-    )
-}
+    );
+};
 
 export default SearchBar;
