@@ -15,14 +15,8 @@ function SearchBar(props) {
     return (
         <>
             <form>
-                <input
-                    id='search'
-                    name='search'
-                    type='text'
-                    value={search}
-                    onChange={handleTermChange}
-                />
-                <button id='searchBtn' type='submit' onClick={search}>
+                <input onChange={handleTermChange} />
+                <button onClick={search}>
                     Search Song Title
                 </button>
             </form>
