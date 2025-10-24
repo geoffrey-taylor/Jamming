@@ -1,5 +1,9 @@
+//clientId provided by Spotify once app registered with them
 const clientId = '';
-const redirectUri = 'http://localhost:3000/';
+//redirectUri specified as part of app registration process with Spotify
+//Redirects user after Spotify account authentication
+const redirectUri = 'http://localhost:5173/';
+//accessToken from user upon Spotify account authentication, before Web API requests
 let accessToken;
 
 //All functionality for Spotify API searching and saving new playlist
@@ -25,9 +29,10 @@ const Spotify = {
         }
     },
 
+    // Search Spotify by song title
     search(term) {
         const accessToken = Spotify.getAccessToken();
-        return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
+        return fetch(`https://api.spotify.com/v1/search?type=TRACK&q=${term}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
@@ -47,6 +52,7 @@ const Spotify = {
         });
     },
 
+    // Save new playlist to user's Spotify account
     savePlaylist(name, trackUris) {
         if (!name || !trackUris.length) {
             return ;
@@ -56,10 +62,12 @@ const Spotify = {
         const headers = {Authorization: `Bearer ${accessToken}`};
         let userId;
 
+        // Get userId from Spotify
         return fetch('https://api.spotify.com/v1/me', {headers: headers}
         ).then(response => response.json()
         ).then(jsonResponse => {
             userId = jsonResponse.id;
+            // Create new playlist in Spotify account
             return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
                 headers: headers,
                 method: 'POST',
@@ -67,6 +75,7 @@ const Spotify = {
             }).then(response => response.json()
             ).then(jsonResponse => {
                 const playlistId = jsonResponse.id;
+                // Add tracks to new playlist
                 return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
                     headers: headers,
                     method: 'POST',
